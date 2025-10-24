@@ -1,0 +1,12 @@
+﻿global using Microsoft.Extensions.DependencyInjection;
+global using System.ComponentModel;
+global using ProductService.BusinessLayer.DTO;
+global using ProductService.DataAccessLayer.Entity;
+global using System.Linq.Expressions;
+global using FluentValidation;
+global using AutoMapper;
+global using ProductService.BusinessLayer.Mapper;
+global using ProductService.BusinessLayer.Services.Interface;
+global using ProductService.DataAccessLayer.Repository.Interface;
+global using ProductService.BusinessLayer.Validator;
+global using System.Reflection;

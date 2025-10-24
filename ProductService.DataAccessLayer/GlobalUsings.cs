@@ -1,0 +1,9 @@
+﻿global using Microsoft.Extensions.DependencyInjection;
+global using System.ComponentModel.DataAnnotations;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration; 
+global using ProductService.DataAccessLayer.Context;
+global using ProductService.DataAccessLayer.Entity;
+global using System.Linq.Expressions;
+global using ProductService.DataAccessLayer.Repository.Interface;
+global using ProductService.DataAccessLayer.Repository;
