@@ -70,7 +70,7 @@ public class ProductService : IProductService
         }
 
         // check if product exists
-        await _productRepository.GetSingleProductWithCondition(x => x.ProductId == request.ProductId);
+        await _productRepository.GetSingleProductWithCondition(x => x.ProductId == request.ProductID);
 
         // validate request
         var validationResult = _updateProductRequestValidator.Validate(request);

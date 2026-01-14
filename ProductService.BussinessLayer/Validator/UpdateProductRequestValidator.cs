@@ -4,7 +4,7 @@ public class UpdateProductRequestValidator :AbstractValidator<UpdateProductReque
 {
     public UpdateProductRequestValidator()
     {
-        RuleFor(x => x.ProductId).NotEmpty().WithMessage("Product Id is required");
+        RuleFor(x => x.ProductID).NotEmpty().WithMessage("Product Id is required");
         RuleFor(x => x.ProductName).NotEmpty().WithMessage("Name is required").MaximumLength(100).WithMessage("Name must be less than 100 characters");
         RuleFor(x => x.Category).NotEmpty().WithMessage("Category is required");
         RuleFor(x => x.UnitPrice).NotEmpty().WithMessage("Price is required");

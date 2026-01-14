@@ -55,7 +55,7 @@ public static class ProductAPIEndpoints
         {
             await AddProductRequestValidator.ValidateAsync(request);
             var product = await productService.AddProductAsync(request);
-            return Results.Created($"/api/products/{product.ProductId}", product);
+            return Results.Created($"/api/products/{product.ProductID}", product);
         })
         .WithName("AddProduct")
         .WithSummary("Add a new product")

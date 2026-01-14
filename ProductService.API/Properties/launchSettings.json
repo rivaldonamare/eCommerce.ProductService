@@ -9,7 +9,8 @@
         "MYSQL_PASSWORD": "admin"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5196"
+      "applicationUrl": "http://localhost:5196",
+      "launchUrl": "swagger"
     },
     "https": {
       "commandName": "Project",
