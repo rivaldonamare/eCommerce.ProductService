@@ -8,6 +8,7 @@ public static class DependencyInjection
         services.AddScoped<IProductService, ProductService.BusinessLayer.Services.ProductService>();
         services.AddValidatorsFromAssemblyContaining<AddProductRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateProductRequestValidator>();
+        services.AddTransient<IRabbitMQPublisher, RabbitMQPublisher>();
         return services;
     }
 }

@@ -9,4 +9,4 @@ global using ProductService.BusinessLayer.Mapper;
 global using ProductService.BusinessLayer.Services.Interface;
 global using ProductService.DataAccessLayer.Repository.Interface;
 global using ProductService.BusinessLayer.Validator;
-global using System.Reflection;
+global using ProductService.BusinessLayer.RabbitMQ;

@@ -6,14 +6,15 @@ public class ProductService : IProductService
     private readonly IValidator<UpdateProductRequest> _updateProductRequestValidator;
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
-
+    private readonly IRabbitMQPublisher _rabbitMQPublisher;
     public ProductService(IValidator<AddProductRequest> addProductRequestValidator, IValidator<UpdateProductRequest> updateProductRequestValidator, 
-        IMapper mapper, IProductRepository productRepository)
+        IMapper mapper, IProductRepository productRepository, IRabbitMQPublisher rabbitMQPublisher)
     {
         _addProductRequestValidator = addProductRequestValidator ?? throw new ArgumentNullException(nameof(addProductRequestValidator));
         _updateProductRequestValidator = updateProductRequestValidator ?? throw new ArgumentNullException(nameof(updateProductRequestValidator));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+        _rabbitMQPublisher = rabbitMQPublisher ?? throw new ArgumentNullException(nameof(rabbitMQPublisher));
     }
 
     public async Task<ProductDTO> AddProductAsync(AddProductRequest request)
@@ -70,14 +71,30 @@ public class ProductService : IProductService
         }
 
         // check if product exists
-        await _productRepository.GetSingleProductWithCondition(x => x.ProductId == request.ProductID);
+        var product = await _productRepository.GetSingleProductWithCondition(x => x.ProductId == request.ProductID);
 
         // validate request
         var validationResult = _updateProductRequestValidator.Validate(request);
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        await _productRepository.UpdateProduct(_mapper.Map<Product>(request));
+        var isProductNameChanged = product.ProductName != request.ProductName;
+
+        var updatedProduct = await _productRepository.UpdateProduct(_mapper.Map<Product>(request));
+
+        if (isProductNameChanged)
+        {
+            var routingKey = "product.update";
+            var message = new UpdatedProductDTO()
+            {
+                Id = updatedProduct.ProductId,
+                ProductName = product.ProductName,
+            };
+
+            _rabbitMQPublisher.Publish(routingKey, message);
+        }
+
+
         return _mapper.Map<ProductDTO>(request);
     }
 }
