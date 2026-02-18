@@ -78,9 +78,12 @@ public class ProductService : IProductService
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
+        // map request ke entity yang sudah ada
+        _mapper.Map(request, product);
+
         var isProductNameChanged = product.ProductName != request.ProductName;
 
-        var updatedProduct = await _productRepository.UpdateProduct(_mapper.Map<Product>(request));
+        var updatedProduct = await _productRepository.UpdateProduct(product);
 
         if (isProductNameChanged)
         {
@@ -94,7 +97,6 @@ public class ProductService : IProductService
             _rabbitMQPublisher.Publish(routingKey, message);
         }
 
-
-        return _mapper.Map<ProductDTO>(request);
+        return _mapper.Map<ProductDTO>(updatedProduct);
     }
 }
