@@ -58,6 +58,6 @@ public class ProductRepository : IProductRepository
         exisitingProduct.QuantityInStock = product.QuantityInStock;
 
         await _dbContext.SaveChangesAsync();
-        return product;
+        return exisitingProduct;
     }
 }
