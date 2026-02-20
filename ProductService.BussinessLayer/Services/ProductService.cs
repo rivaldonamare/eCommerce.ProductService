@@ -78,10 +78,12 @@ public class ProductService : IProductService
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        // map request ke entity yang sudah ada
+        var oldProductName = product.ProductName;
+
         _mapper.Map(request, product);
 
-        var isProductNameChanged = product.ProductName != request.ProductName;
+        var isProductNameChanged = oldProductName != request.ProductName;
+
 
         var updatedProduct = await _productRepository.UpdateProduct(product);
 
